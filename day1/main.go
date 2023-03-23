@@ -9,13 +9,26 @@ import (
 func main() {
 	slice := intSliceFromFile("../inputs/day1.txt")
 	sum := sumNumbersThatMatchNext(slice)
-	fmt.Println(sum)
+	fmt.Println("Part1: ", sum)
+
+	pt2 := sumNumbersThatMatchHalfway(slice)
+	fmt.Println("Part2: ", pt2)
 }
 
 func sumNumbersThatMatchNext(slice []int) int {
 	sum := 0
 	for i := 0; i < len(slice); i++ {
 		if slice[i] == slice[(i+1)%len(slice)] {
+			sum += slice[i]
+		}
+	}
+	return sum
+}
+
+func sumNumbersThatMatchHalfway(slice []int) int {
+	sum := 0
+	for i := 0; i < len(slice); i++ {
+		if slice[i] == slice[(i+len(slice)/2)%len(slice)] {
 			sum += slice[i]
 		}
 	}
