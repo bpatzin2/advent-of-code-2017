@@ -14,10 +14,30 @@ func main() {
 	rows := intSlicesFromFile("../inputs/day2.txt")
 	c := checksum(rows)
 	fmt.Println("Part1: ", c)
+	dvq := divibleValueQuotent(rows)
+	fmt.Println("Part2: ", dvq)
 }
 
 func checksum(rows [][]int) int {
 	return lo.SumBy(rows, rowChecksum)
+}
+
+func divibleValueQuotent(rows [][]int) int {
+	return lo.SumBy(rows, rowDivibleValueQuotent)
+}
+
+func rowDivibleValueQuotent(row []int) int {
+	for i, a := range row {
+		for _, b := range row[i+1:] {
+			if a%b == 0 {
+				return a / b
+			}
+			if b%a == 0 {
+				return b / a
+			}
+		}
+	}
+	return 0
 }
 
 func rowChecksum(row []int) int {
