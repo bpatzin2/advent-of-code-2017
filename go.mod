@@ -2,9 +2,6 @@ module adventofcode2017
 
 go 1.20
 
-require rsc.io/quote v1.5.2
+require github.com/samber/lo v1.38.1
 
-require (
-	golang.org/x/text v0.0.0-20170915032832-14c0d48ead0c // indirect
-	rsc.io/sampler v1.3.0 // indirect
-)
+require golang.org/x/exp v0.0.0-20220303212507-bbda1eaf7a17 // indirect
