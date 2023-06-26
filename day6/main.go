@@ -19,6 +19,9 @@ func main() {
 
 	fmt.Println("Part1 test:", distribute([]int{0, 2, 7, 0}))
 	fmt.Println("Part1:", distribute(numbers))
+
+	fmt.Println("Part2 test:", distribute2([]int{0, 2, 7, 0}))
+	fmt.Println("Part2:", distribute2(numbers))
 }
 
 func distribute(memoryBanks []int) int {
@@ -32,6 +35,24 @@ func distribute(memoryBanks []int) int {
 			return stepCount
 		}
 		bankHistory.Add(fmt.Sprint(memoryBanks))
+	}
+}
+
+func distribute2(memoryBanks []int) int {
+	stepCount := 0
+	bankHistory := mapset.NewSet[string]()
+	bankHistory.Add(fmt.Sprint(memoryBanks))
+	historySlice := []string{}
+	historySlice = append(historySlice, fmt.Sprint(memoryBanks))
+	for {
+		memoryBanks = distributeOnce(memoryBanks)
+		stepCount++
+		if bankHistory.Contains(fmt.Sprint(memoryBanks)) {
+			prevIdx := lo.IndexOf(historySlice, fmt.Sprint(memoryBanks))
+			return len(historySlice) - prevIdx
+		}
+		bankHistory.Add(fmt.Sprint(memoryBanks))
+		historySlice = append(historySlice, fmt.Sprint(memoryBanks))
 	}
 }
 
