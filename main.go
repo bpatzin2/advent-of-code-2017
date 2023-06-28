@@ -2,6 +2,7 @@ package main
 
 import (
 	"advent-of-code-2017/day1"
+	"advent-of-code-2017/day7"
 	"fmt"
 )
 
@@ -16,4 +17,8 @@ func day1pt1() int {
 
 func day1pt2() int {
 	return day1.Part2("inputs/day1.txt")
+}
+
+func day7pt1() string {
+	return day7.Part1()
 }

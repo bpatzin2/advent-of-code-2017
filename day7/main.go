@@ -1,4 +1,4 @@
-package main
+package day7
 
 import (
 	"bufio"
@@ -11,14 +11,15 @@ import (
 	"github.com/samber/lo"
 )
 
-func main() {
-	programs, err := parseInput("../inputs/day7.txt")
+func Part1() string {
+	programs, err := parseInput("inputs/day7.txt")
 	if err != nil {
 		log.Fatalf("intSliceFromFile: %s", err)
 	}
 
 	result, ok := findRoot(programs)
 	fmt.Println("Part1:", result, ok)
+	return result.name
 }
 
 type Program struct {
