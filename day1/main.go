@@ -1,18 +1,18 @@
-package main
+package day1
 
 import (
-	"fmt"
 	"os"
 	"strings"
 )
 
-func main() {
-	slice := intSliceFromFile("../inputs/day1.txt")
-	sum := sumNumbersThatMatchNext(slice)
-	fmt.Println("Part1: ", sum)
+func Part1(filename string) int {
+	slice := intSliceFromFile(filename)
+	return sumNumbersThatMatchNext(slice)
+}
 
-	pt2 := sumNumbersThatMatchHalfway(slice)
-	fmt.Println("Part2: ", pt2)
+func Part2(filename string) int {
+	slice := intSliceFromFile(filename)
+	return sumNumbersThatMatchHalfway(slice)
 }
 
 func sumNumbersThatMatchNext(slice []int) int {
