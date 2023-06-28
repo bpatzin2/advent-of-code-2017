@@ -2,7 +2,6 @@ package day7
 
 import (
 	"bufio"
-	"fmt"
 	"log"
 	"os"
 	"strconv"
@@ -17,8 +16,7 @@ func Part1() string {
 		log.Fatalf("intSliceFromFile: %s", err)
 	}
 
-	result, ok := findRoot(programs)
-	fmt.Println("Part1:", result, ok)
+	result, _ := findRoot(programs)
 	return result.name
 }
 
