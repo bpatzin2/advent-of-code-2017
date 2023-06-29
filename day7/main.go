@@ -11,24 +11,52 @@ import (
 )
 
 func Part1() string {
-	programs, err := parseInput("inputs/day7.txt")
+	programInfos, err := parseInput("inputs/day7.txt")
 	if err != nil {
 		log.Fatalf("intSliceFromFile: %s", err)
+	}
+
+	programs := make([]*Program, len(programInfos))
+	for i, programInfo := range programInfos {
+		programs[i] = &Program{
+			name:     programInfo.name,
+			weight:   programInfo.weight,
+			children: []*Program{},
+		}
+	}
+
+	programsByName := make(map[string]*Program, len(programInfos))
+	for _, program := range programs {
+		programsByName[program.name] = program
+	}
+
+	for _, programInfo := range programInfos {
+		program := programsByName[programInfo.name]
+		for _, childName := range programInfo.children {
+			child := programsByName[childName]
+			program.children = append(program.children, child)
+		}
 	}
 
 	result, _ := findRoot(programs)
 	return result.name
 }
 
-type Program struct {
+type ProgramInfo struct {
 	name     string
 	weight   int
 	children []string
 }
 
-func findRoot(programs []Program) (Program, bool) {
+type Program struct {
+	name     string
+	weight   int
+	children []*Program
+}
+
+func findRoot(programs []*Program) (*Program, bool) {
 	parents := indexByParent(programs)
-	return lo.Find(programs, func(program Program) bool {
+	return lo.Find(programs, func(program *Program) bool {
 		_, ok := parents[program.name]
 		if ok {
 			return false
@@ -37,27 +65,27 @@ func findRoot(programs []Program) (Program, bool) {
 	})
 }
 
-func indexByParent(programs []Program) map[string]string {
+func indexByParent(programs []*Program) map[string]string {
 	parents := make(map[string]string)
 	for _, program := range programs {
 		for _, child := range program.children {
-			parents[child] = program.name
+			parents[child.name] = program.name
 		}
 	}
 	return parents
 }
 
-func parseInput(filename string) ([]Program, error) {
+func parseInput(filename string) ([]ProgramInfo, error) {
 	lines, error := readLines(filename)
 	if error != nil {
 		return nil, error
 	}
-	return lo.Map(lines, func(line string, index int) Program {
+	return lo.Map(lines, func(line string, index int) ProgramInfo {
 		return parseLine(line)
 	}), nil
 }
 
-func parseLine(line string) Program {
+func parseLine(line string) ProgramInfo {
 	parts := strings.Split(line, "->")
 
 	nameAndWeight := strings.Fields(parts[0])
@@ -65,7 +93,7 @@ func parseLine(line string) Program {
 	weightStr := strings.Trim(nameAndWeight[1], "()")
 	weight, err := strconv.Atoi(weightStr)
 	if err != nil {
-		return Program{}
+		return ProgramInfo{}
 	}
 
 	var children []string
@@ -76,7 +104,7 @@ func parseLine(line string) Program {
 		}
 	}
 
-	return Program{
+	return ProgramInfo{
 		name:     name,
 		weight:   weight,
 		children: children,
