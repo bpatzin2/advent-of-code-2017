@@ -18,3 +18,7 @@ func TestDay1pt2(t *testing.T) {
 func TestDay7pt1(t *testing.T) {
 	require.Equal(t, "vmpywg", day7pt1())
 }
+
+func TestDay7pt1(t *testing.T) {
+	require.Equal(t, "1674", day7pt2())
+}
